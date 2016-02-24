@@ -8,51 +8,68 @@ require './image_uploader.rb'
 
 
 get '/' do
- @contents = Contribution.order('id desc').all
+ @contents = Item.order('id desc').all
  erb :index
 end
 
+post '/confirm' do
+ @contents = Item.order('id desc').all
+ erb :form
+end
+
 post '/new' do
-    Contribution.create({
-        name: params[:user_name],
-        body: params[:body],
-        img: "",
-        good: 0
-    })
-    
-    if params[:file]
-        image_upload(params[:file])
-    end
-    
-  redirect '/'
+  Item.create({
+      title: params[:title],
+      body: params[:body],
+      good: 0,
+      bad: 0
+  })
+ redirect '/'
+ end
+
+post '/detail/:id' do
+     @contributions = Contribution.find(params[:id])
+    erb :detail
 end
 
 post '/delete/:id' do
-    Contribution.find(params[:id]).destroy
+    Item.find(params[:id]).destroy
     redirect '/'
 end
 
-post '/edit/:id' do
-    @content = Contribution.find(params[:id])
-    erb :edit
-end
-
-post '/renew/:id' do
-    @content = Contribution.find(params[:id])
-    @content.update({
-        name: params[:user_name],
-        body: params[:body]
-    })
-
- redirect '/'
-end
-
 post '/good/:id' do
-    @content = Contribution.find(params[:id])
+    @content = Item.find(params[:id])
     good = @content.good
     @content.update({
         good: good + 1
     })
     
     redirect '/'
+end
+
+post '/bad/:id' do
+    @content = Item.find(params[:id])
+    bad = @content.bad
+    @content.update({
+        bad: bad + 1
+    })
+    
+    redirect '/'
+end
+
+post '/edit/:id' do
+    @content = Item.find(params[:id])
+    erb :edit
+end
+
+post '/renew/:id' do
+    @content = Item.find(params[:id])
+    @content.update({
+        title: params[:title],
+        body: params[:body],
+        linkTitle: params[:linkTitle],
+        url: params[:url]
+    })
+
+ redirect '/'
 end

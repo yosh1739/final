@@ -2,43 +2,43 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>家計簿アプリ</title>
+    <title>単語帳</title>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <link rel ="stylesheet" href="/stylesheets/wordbox.css">
 </head>
 <body>
- <form action="/new" method="post" enctype="multipart/form-data">
-     <p>名前:<input type="text" name="user_name"></p>
-     <p>本文:<input type="textarea" name="body"></p>
-     <p><input type="file" name="file"></p>
-     <p><input type="submit" value="投稿します"></p>
- </form>
- 
- <ul>
-  <% @contents.each do |content| %>
-  <li>
-    <p><%= content.name %></p>
-    <p><%= content.body %></p>
-    <span><%= content.good %></span>
-    <% unless content.img.empty? %>
-    <p><img src="<%= content.img %>"></p>
-    <% end %>
-    <span>
-      <form action="/delete/<%= content.id %>" method="post">
-          <input type="submit" value="消去">
-      </form>
-    </span>
-    <span>
-        <form action="/edit/<%= content.id %>" method="post">
-            <input type="submit" value="編集">
-        </form>
-    </span>
-    <span>
-        <form action="/good/<%= content.id %>" method="post">
-            <input type="submit" value="Good">
-        </form>
-    </span>
-  </li>
-  <% end %>
- </ul>
 
-</body>
+<div>
+    <form action="/confirm" method="post">
+    　　<input type="submit" value="アンケートを作る">
+    </form>
+ </div>
+ 
+  <main>
+     <% @contents.each do |content| %>
+     <article>
+         <h2><%= content.title %></h2>
+         <p><%= content.body %></p>
+         <span><%= content.good %></span>
+         
+         <span>
+         <form action="/good/<%= content.id %>" method="post"><input type="text" placeholder="コメント" name= "comment"><input type="submit" value="賛成">
+         </form>
+         </span>
+         
+         <span><%= content.bad %></span>
+         <span>
+         <form action="/bad/<%= content.id %>" method="post"><input type="text" placeholder="コメント" name= "comment"><input type="submit" value="反対">
+         </form>
+         </span>
+         <div class="edit">
+            <form action="/detail/<%= content.id %>" method="post"><input type="submit" value="詳細"></form>
+            <form action="/edit/<%= content.id %>" method="post"><input type="submit" value="編集"></form>
+            <form action="/delete/<%= content.id %>" method="post"><input type="submit" value="削除"></form>
+         </div>
+     </article>
+     <% end %>
+ </main>
+ 
+ </body>
 </html>
