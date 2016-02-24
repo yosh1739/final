@@ -22,15 +22,13 @@
          <span><%= content.good %></span>
          
          <span>
-         <form action="/good/<%= content.id %>" method="post"><input type="text" placeholder="コメント" name= "comment"><input type="submit" value="賛成">
+         <form action="/good/<%= content.id %>" method="post"><input type="text" placeholder="コメント" name= "comment">
+         <label><input type="radio" name="agree" id="agree" value="賛成" checked>賛成</label>
+         <label><input type="radio" name="agree" id="disagree" value="反対" checked>反対</label>
+         <input type="submit" value="投票">
          </form>
          </span>
          
-         <span><%= content.bad %></span>
-         <span>
-         <form action="/bad/<%= content.id %>" method="post"><input type="text" placeholder="コメント" name= "comment"><input type="submit" value="反対">
-         </form>
-         </span>
          <div class="edit">
             <form action="/detail/<%= content.id %>" method="post"><input type="submit" value="詳細"></form>
             <form action="/edit/<%= content.id %>" method="post"><input type="submit" value="編集"></form>
